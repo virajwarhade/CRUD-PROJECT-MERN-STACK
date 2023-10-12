@@ -1,8 +1,17 @@
-import React, { useState } from "react";
+import React, { useState ,useRef, useEffect} from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import LoadingBar from 'react-top-loading-bar';
 
 function CreateUser() {
+    const [users, setUsers] = useState([]);
+
+    const loadingBar = useRef(null);
+
+    useEffect(()=>{
+        loadingBar.current.continuousStart();
+        loadingBar.current.complete();
+    })
 
     const [Name,setName] = useState()
     const [Email,setEmail] = useState()
@@ -23,8 +32,12 @@ function CreateUser() {
 
 
   return (
-    <div className="d-flex vh-100 bg-primary justify-content-center align-items-center">
-      <div className="w-50 bg-white rounded-4 p-3">
+    <>
+    
+    <LoadingBar color='#000000' ref={loadingBar} />
+
+    <div className="d-flex vh-100 bg-light justify-content-center align-items-center">
+      <div className="w-50 bg-white rounded-4 p-3 shadow" >
         <form onSubmit={Submit}>
 
         <h2>Add User</h2>
@@ -56,11 +69,13 @@ function CreateUser() {
             />
         </div>
 
-        <button className="btn btn-primary">submit</button>
+        <button className="btn btn-primary mx-0 my-2">submit</button>
+        <Link to='/' className="btn btn-success mx-2 my-2">Back</Link>
 
         </form>
       </div>
     </div>
+    </>
   );
 }
 

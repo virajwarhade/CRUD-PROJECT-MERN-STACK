@@ -1,26 +1,29 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-
+import LoadingBar from 'react-top-loading-bar';
 
 
 
 function UpdateUser() {
     const {id} = useParams()
-
+    const loadingBar = useRef(null); // Create a ref
     const [Name,setName] = useState()
     const [Email,setEmail] = useState()
     const [Age,setAge] = useState()
     const navigate = useNavigate()
     
     useEffect(()=>{
+        loadingBar.current.continuousStart();
+
         axios.get(`http://localhost:3001/getUser/${id}`)
         .then((result) => {
             setName(result.data.Name)
             setEmail(result.data.Email)
             setAge(result.data.Age)
+            loadingBar.current.complete();
         })
-        .catch(err => console.log(err))
+        .catch(err => {console.log(err);  loadingBar.current.complete();})
     },[])
 
 
@@ -38,8 +41,12 @@ function UpdateUser() {
 
 
   return (
-    <div className="d-flex vh-100 bg-primary justify-content-center align-items-center">
-      <div className="w-50 bg-white rounded-4 p-3">
+
+    <>
+    <LoadingBar color='#000000' ref={loadingBar} />
+
+    <div className="d-flex vh-100 bg-light justify-content-center align-items-center">
+      <div className="w-50 bg-white rounded-4 p-3 shadow">
         <form onSubmit={Update}>
 
         <h2>Update User</h2>
@@ -65,6 +72,7 @@ function UpdateUser() {
         </form>
       </div>
     </div>
+    </>
   )
 }
 
