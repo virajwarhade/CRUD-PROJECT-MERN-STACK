@@ -10,11 +10,27 @@ app.use(express.json());
 
 mongoose.connect("mongodb://127.0.0.1:27017/crud_app");
 
+
+
+
+
+
+
+
 app.post("/CreateUser", (req, res) => {
   UserModel.create(req.body)
     .then((users) => res.json(users))
     .catch((err) => res.json(err));
 });
+
+
+
+
+
+
+
+
+
 
 app.get("/", (req, res) => {
   UserModel.find({})
@@ -22,9 +38,23 @@ app.get("/", (req, res) => {
     .catch((err) => res.json(err));
 });
 
+
+
+
+
+
+
+
+
 app.listen(3001, () => {
   console.log("running on port 3001");
 });
+
+
+
+
+
+
 
 app.get("/getUser/:id", (req, res) => {
   const id = req.params.id;
@@ -33,6 +63,11 @@ app.get("/getUser/:id", (req, res) => {
     .then((users) => res.json(users))
     .catch((err) => res.json(err));
 });
+
+
+
+
+
 
 app.put("/updateUser/:id", (req, res) => {
   const id = req.params.id;
